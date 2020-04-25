@@ -1,0 +1,124 @@
+Parsing file: [C:/Users/Gustavo/PycharmProjects/Desafio_NASA/data/NASA_access_log_Jul95/access_log_Jul95]
+Line[1891714] - [alyssa.p] is malformed and could not be parsed
+Parsed file saved as: [C:/Users/Gustavo/PycharmProjects/Desafio_NASA/data/NASA_access_log_Jul95/Jul95_parsed.csv]
+Parsing file: [C:/Users/Gustavo/PycharmProjects/Desafio_NASA/data/NASA_access_log_Aug95/access_log_Aug95]
+Parsed file saved as: [C:/Users/Gustavo/PycharmProjects/Desafio_NASA/data/NASA_access_log_Aug95/Aug95_parsed.csv]
+Schema for df_Jul95:
+root
+ |-- requester: string (nullable = true)
+ |-- timestamp: string (nullable = true)
+ |-- resource: string (nullable = true)
+ |-- response: string (nullable = true)
+ |-- response_size: string (nullable = true)
+
+None
+Schema for df_Aug95:
+root
+ |-- requester: string (nullable = true)
+ |-- timestamp: string (nullable = true)
+ |-- resource: string (nullable = true)
+ |-- response: string (nullable = true)
+ |-- response_size: string (nullable = true)
+
+None
+Number of records for Jul 95: 1891714
+Number of records for Aug 95: 1569898
+Sample of final dataframe:
++--------------------+--------------------------+------------------------------------------------------------+--------+-------------+
+|requester           |timestamp                 |resource                                                    |response|response_size|
++--------------------+--------------------------+------------------------------------------------------------+--------+-------------+
+|199.72.81.55        |01/Jul/1995:00:00:01 -0400|GET /history/apollo/ HTTP/1.0                               |200     |6245         |
+|unicomp6.unicomp.net|01/Jul/1995:00:00:06 -0400|GET /shuttle/countdown/ HTTP/1.0                            |200     |3985         |
+|199.120.110.21      |01/Jul/1995:00:00:09 -0400|GET /shuttle/missions/sts-73/mission-sts-73.html HTTP/1.0   |200     |4085         |
+|burger.letters.com  |01/Jul/1995:00:00:11 -0400|GET /shuttle/countdown/liftoff.html HTTP/1.0                |304     |0            |
+|199.120.110.21      |01/Jul/1995:00:00:11 -0400|GET /shuttle/missions/sts-73/sts-73-patch-small.gif HTTP/1.0|200     |4179         |
++--------------------+--------------------------+------------------------------------------------------------+--------+-------------+
+only showing top 5 rows
+
+Question 1: Numero de hosts unicos
+Total distinct hosts: 137978
+Question 2: O total de erros 404
+Total 404 responses: 20848
+Question 3: Os 5 URLs que mais causaram erro 404
++---------------------------------------------------------+---------------+
+|resource                                                 |count(response)|
++---------------------------------------------------------+---------------+
+|GET /pub/winvn/readme.txt HTTP/1.0                       |2004           |
+|GET /pub/winvn/release.txt HTTP/1.0                      |1732           |
+|GET /shuttle/missions/STS-69/mission-STS-69.html HTTP/1.0|682            |
+|GET /shuttle/missions/sts-68/ksc-upclose.gif HTTP/1.0    |426            |
+|GET /history/apollo/a-001/a-001-patch-small.gif HTTP/1.0 |384            |
++---------------------------------------------------------+---------------+
+only showing top 5 rows
+
+None
+Question 4: Quantidade de erros 404 por dia
++---------+---------+
+|day      |total_404|
++---------+---------+
+|1/7/1995 |301      |
+|2/7/1995 |276      |
+|3/7/1995 |462      |
+|4/7/1995 |368      |
+|5/7/1995 |475      |
+|6/7/1995 |656      |
+|7/7/1995 |575      |
+|8/7/1995 |315      |
+|9/7/1995 |345      |
+|10/7/1995|379      |
+|11/7/1995|493      |
+|12/7/1995|463      |
+|13/7/1995|524      |
+|14/7/1995|416      |
+|15/7/1995|252      |
+|16/7/1995|238      |
+|17/7/1995|417      |
+|18/7/1995|465      |
+|19/7/1995|647      |
+|20/7/1995|410      |
+|21/7/1995|340      |
+|22/7/1995|188      |
+|23/7/1995|231      |
+|24/7/1995|318      |
+|25/7/1995|471      |
+|26/7/1995|344      |
+|27/7/1995|330      |
+|28/7/1995|105      |
+|1/8/1995 |243      |
+|3/8/1995 |288      |
+|4/8/1995 |349      |
+|5/8/1995 |236      |
+|6/8/1995 |377      |
+|7/8/1995 |524      |
+|8/8/1995 |395      |
+|9/8/1995 |284      |
+|10/8/1995|312      |
+|11/8/1995|272      |
+|12/8/1995|176      |
+|13/8/1995|220      |
+|14/8/1995|297      |
+|15/8/1995|324      |
+|16/8/1995|252      |
+|17/8/1995|275      |
+|18/8/1995|257      |
+|19/8/1995|213      |
+|20/8/1995|305      |
+|21/8/1995|310      |
+|22/8/1995|266      |
+|23/8/1995|358      |
+|24/8/1995|416      |
+|25/8/1995|418      |
+|26/8/1995|358      |
+|27/8/1995|384      |
+|28/8/1995|406      |
+|29/8/1995|416      |
+|30/8/1995|539      |
+|31/8/1995|551      |
+|1/9/1995 |23       |
++---------+---------+
+
+Question 5: O total de bytes retornados
+Total bytes returned to requesters: 65535001345 bytes
+SUCCESS: The process with PID 3544 (child process of PID 1612) has been terminated.
+SUCCESS: The process with PID 1612 (child process of PID 4772) has been terminated.
+SUCCESS: The process with PID 4772 (child process of PID 7124) has been terminated.
