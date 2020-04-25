@@ -1,9 +1,9 @@
 #Projeto 'Desafio Nasa' para vaga de engenheiro de dados na Semantix
-###Feito por Gustavo Pedroso em 26/04/2020
+###Feito por Gustavo Pedroso em 25/04/2020
 ###Testado em OS: Windows 10 Professional
 
 ##Arquivos Importantes
-* respostas.txt (arquivo com as responstas para as perguntas dissertativas)
+* respostas.txt (arquivo com as respostas para as perguntas dissertativas)
 * exec_log.txt (arquivo com os logs de execução do código main.py)
 * Desafio_NASA.pdf (arquivo com a descrição original do desafio)
 
@@ -12,7 +12,7 @@
 * spark 2.4.5
 * java 8
 * variáveis de ambiente configuradas (JAVA_HOME, SPARK_HOME)
-* arquivos de dados (NASA logs) na pasta correta (data) seguindo nomenclatura como em main.py linhas: 14 e 15
+* arquivos de dados (NASA logs) na pasta correta (data) seguindo nomenclatura como em main.py linhas: 17 e 18
 
 ## Quando os pontos acima estiverem verificados, execute a aplicação usando uma das formas abaixo:
 * Na pasta raiz do projeto execute: python src/main.py

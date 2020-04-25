@@ -4,9 +4,10 @@ Perguntas copiadas do arquivo com a descrição original do desafio (Desafio_NAS
 Pergunta 1: Qual o objetivo do comando cache em Spark?
 
 Resposta: O comando cache (geralmente utilizado em um Dataframe) tem o objetivo de armazenar os resultados de
-computações anteriores para que sejam utilizadas no futuro próximo. Como o Spark opera de forma 'lazy', ou seja,
-apenas registra as transformações até o momento de retorná-las ou exibí-las, só então executando de fato as operações.
-O comando cache tem comportamento similar ao comando persist, mas usando como padrão armazenamento em memória.
+computações anteriores para que sejam utilizadas no futuro próximo. O Spark opera de forma 'lazy', ou seja,
+apenas registra as transformações até o momento de retorná-las ou exibí-las, só então executando de fato as operações,
+isso permite que os RDDs sejam 'armazenados' em memória. O comando cache tem comportamento similar ao comando persist,
+mas usando como padrão armazenamento em memória.
 
 Obs. O armazenamento padrão a partir do Scala 2.0 é MEMORY_AND_DISK
 
@@ -17,15 +18,15 @@ MapReduce. Por quê?
 Resposta: Para responder em uma palavra: memória, mas vai além disso. O spark e o MapReduce são duas engines de
 processamento de big data que rodam no hadoop (HDFS), no entando o spark consegue utilizar o conceito de
 lazy processing para fazer menos leituras em disco e manter os dados em memória entre cada Transformação executada
-no conjunto de dados. O MapReduce faz leituras e escritas (em disco) a cada transformação o que o torna muito mais lento.
-O spark também possuí uma api com maior nível de abstração e otimização de desempenho, aumentando ainda mais sua
-velocidade em relação ao MapReduce.
+no conjunto de dados. O MapReduce faz leituras e escritas (em disco) a cada transformação o que o torna muito mais
+lento. O spark também possuí uma api com maior nível de abstração e otimização de desempenho, aumentando ainda mais
+sua velocidade em relação ao MapReduce.
 
 # --------------------------------------------------------------------------------------------------------------------#
 Pergunta 3: Qual é a função do SparkContext?
 
-Resposta: O SparkContext é o ponto de entrada para qualquer applicação Spark. O SparkContext faz a comunicação entre o
-driver da applicação (Spark Driver) e o ambiente de execução (geralmente um cluster). O SparkContext faz essa
+Resposta: O SparkContext é o ponto de entrada para qualquer aplicação Spark. O SparkContext faz a comunicação entre o
+driver da aplicação (Spark Driver) e o ambiente de execução (geralmente um cluster). O SparkContext faz essa
 comunicação através do gerenciador de recursos (RM), geralmente Yarn ou Mesos. O Spark Context também é usado para
 criação de RDDs e outros objetos do Spark.
 
@@ -37,16 +38,16 @@ Resilient: significa que pode ser reconstruído através da reexecução das tra
 Distributed: significa que este conjunto de dados é distribuído em diferentes nós no cluster spark, proporcionando
 redundância (por conta do HDFS) e paralelismo.
 Dataset:  esta é a principal abstração presente no Spark para lidar com dados. Então, em resumo: um conjunto de dados
-que pode ser reconstruído e que está distribuído em partes do cluster spark.
+que pode ser reconstruído e que está distribuído em partes no cluster spark.
 
 # --------------------------------------------------------------------------------------------------------------------#
-Pergunta 5: GroupByKey é menos eficiente que reduceByKey em grandes dataset. Por quê?
+Pergunta 5: GroupByKey é menos eficiente que reduceByKey em grandes datasets. Por quê?
 
 Resposta: A principal diferença entre GroupByKey e reduceByKey no spark é que o reduceByKey faz uma operação de
 combinação em cada parte do RDD paralelamente ANTES de enviar o resultado para o próximo executor (Spark Executor).
 Isso reduz em muito a transferência dos dados pela rede entre os nós no servidor. O GroupByKey primeiro agrupa os
 dados em um próximo executor (data shuffle) e só então aplica a operação de combinação (como uma soma ou multiplicação).
-Dessa forma o reduceByKey faz menos uso da rede que geralmente é o link mais lento em sistemas computacionais,
+Dessa forma o reduceByKey faz menos uso da rede, que geralmente é o link mais lento em sistemas computacionais,
 tornando-se mais eficiente quando comparado ao GroupByKey.
 
 # --------------------------------------------------------------------------------------------------------------------#
@@ -56,12 +57,12 @@ val textFile = sc.textFile("hdfs://...")
 val counts = textFile.flatMap(line => line.split(" ")).map(word => (word, 1)).reduceByKey(_ + _)
 counts.saveAsTextFile("hdfs://...")
 
-Resposta: Na primeira linha o SparkContext (sc) é usado para se criar um RDD a partir de um arquivo de texto armazenado
+Resposta: Na primeira linha o SparkContext (sc) é usado para criar um RDD a partir de um arquivo de texto armazenado
 no HDFS. O resultado é salvo na variavél imutável (val textFile)
 A segunda linha, composta por 3 comandos é mais interessante. Primeiro é feito um flatMap, essa operação vai
 transformar cada linha do arquivo de entrada em um array de palavras, usando o espaço (' ') como divisão através da
 função split. Ao final da operação teremos um RDD onde cada palavra do arquivo inicial será uma linha.
-A segunda operação é um map que vai transformar cada palavra em uma tupla (palavra, 1). Por fim é utilizada uma função
+A segunda operação é um map que vai transformar cada palavra em uma tupla (<palavra>, 1). Por fim é utilizada uma função
 reduceByKey que vai agrupar os dados por palavra e vai somar o valor (1) da segunda posição nas tuplas. O resultado
 final será a frequência total de cada palavra no documento inicial. Esse tipo de operação é comum na construção de
 Word Clouds, para visualização de frequência de palavras.

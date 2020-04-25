@@ -1,3 +1,5 @@
+# Feito por Gustavo Pedroso em 25/04/2020
+
 import pathlib
 import pyspark.sql.functions as F
 from pyspark.sql import SparkSession
@@ -9,7 +11,6 @@ base_folder = str(pathlib.Path(__file__).parent.parent.absolute()).replace('\\',
 
 # creating the spark session
 spark = SparkSession.builder.appName("Desafio_Nasa").getOrCreate()
-spark.sparkContext.setLogLevel('ERROR')
 
 # setting the file names for the data that will be used
 log_Jul95 = base_folder + '/data/NASA_access_log_Jul95/access_log_Jul95'
