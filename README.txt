@@ -12,7 +12,7 @@
 * spark 2.4.5
 * java 8
 * variáveis de ambiente configuradas (JAVA_HOME, SPARK_HOME)
-* arquivos de dados (NASA logs) na pasta correta (data) seguindo nomenclatura como em main.py linhas: 17 e 18
+* arquivos de dados (NASA logs) na pasta correta (data) seguindo nomenclatura como em main.py
 
 ## Quando os pontos acima estiverem verificados, execute a aplicação usando uma das formas abaixo:
 * Na pasta raiz do projeto execute: python src/main.py
