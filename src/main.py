@@ -1,5 +1,5 @@
-# Feito por Gustavo Pedroso em 25/04/2020
-
+# Created by Gustavo Pedroso on 25/04/2020
+# import necessary libs
 import pathlib
 import pyspark.sql.functions as F
 from pyspark.sql import SparkSession
@@ -9,10 +9,10 @@ from nasa_log_parser import log_parser
 # defining the base folder for better portability and readability
 base_folder = str(pathlib.Path(__file__).parent.parent.absolute()).replace('\\', '/')
 
-# creating the spark session
+# creating the spark session. In older spark versions sparkContext would be created.
 spark = SparkSession.builder.appName("Desafio_Nasa").getOrCreate()
 
-# setting the file names for the data that will be used
+# setting the file names for the data that will be used, check if data files are on this path below
 log_Jul95 = base_folder + '/data/NASA_access_log_Jul95/access_log_Jul95'
 log_Aug95 = base_folder + '/data/NASA_access_log_Aug95/access_log_Aug95'
 
@@ -20,11 +20,11 @@ log_Aug95 = base_folder + '/data/NASA_access_log_Aug95/access_log_Aug95'
 parsed_Jul95 = base_folder + '/data/NASA_access_log_Jul95/Jul95_parsed.csv'
 parsed_Aug95 = base_folder + '/data/NASA_access_log_Aug95/Aug95_parsed.csv'
 
-# call to nasa_log_paser.log_parser to parse the log files into column delimited files (csv)
+# call to nasa_log_paser.log_parser() to parse the log files into column delimited files (csv)
 log_parser(log_Jul95, parsed_Jul95)
 log_parser(log_Aug95, parsed_Aug95)
 
-# using the spark session object to read the files and their headers
+# using the spark session object to read the files and their headers and create a dataframe
 df_Jul95 = spark.read.csv(parsed_Jul95, header=True)
 df_Aug95 = spark.read.csv(parsed_Aug95, header=True)
 
@@ -38,27 +38,29 @@ print(df_Aug95.printSchema())
 print('Number of records for Jul 95: {}'.format(df_Jul95.count()))
 print('Number of records for Aug 95: {}'.format(df_Aug95.count()))
 
-# unionAll of both data in order to merge the dataframes into a single one
+# unionAll of both dataframes in order to combine the data into a single object
 df = df_Jul95.unionAll(df_Aug95)
 # show final parsed dataframe
 print('Sample of final dataframe:')
 df.show(5, False)
 
-# simple select using distinc and count to get unique hosts
 print('Question 1: Numero de hosts unicos')
+# simple select using distinc and count to get unique hosts
 print('Total distinct hosts: {}'.format(df.select('requester').distinct().count()))
 
-# dataframe filter and count to get total amount of 404 errors
 print('Question 2: O total de erros 404')
+# dataframe filter and count to get total amount of 404 errors
 print('Total 404 responses: {}'.format(df.filter('response == "404"').count()))
 
-# first filter 404 errors, than group by resource and count
 print('Question 3: Os 5 URLs que mais causaram erro 404')
+# first filter 404 errors, then group by resource and count
 print(df.filter('response == "404"').groupBy('resource').agg(F.count('response')).orderBy(F.desc('count(response)')).
       show(5, False))
 
-
+print('Question 4: Quantidade de erros 404 por dia')
 # a little more complicate since timestamp had to be converted using date_utils.py and UDF (user defined function)
+
+
 # simple method to convert string timestamp to a python friendly format
 def convert_timestamp(str_timestamp):
     from datetime import datetime
@@ -69,7 +71,7 @@ def convert_timestamp(str_timestamp):
         return None
 
 
-# create a UDF (user defined function) to use in the main class and apply to the timestamp column
+# create a UDF (user defined function) to create a new column with the converted timestamp object
 convert_timestamp_udf = F.udf(lambda x: convert_timestamp(x), TimestampType())
 
 # after converting, data is grouped by dayofyear, aggregated by count and date elements (dayofmonth, month, year)
@@ -89,15 +91,16 @@ temp = temp.select(F.concat('max(dayofmonth(date_timestamp))',
 
 # finally order by date
 temp = temp.orderBy('max(year(date_timestamp))', 'max(month(date_timestamp))', 'max(dayofmonth(date_timestamp))')
-print('Question 4: Quantidade de erros 404 por dia')
+# show the first 100 days, but the dataframe should not have as many because it's from a 2 month period
 temp.show(100, False)
 
-# simple aggregation function to sum all bytes returned in all requests
 print('Question 5: O total de bytes retornados')
+# simple aggregation function to sum all bytes returned in all requests
 print('Total bytes returned to requesters: {} bytes'.format(int(df.agg(F.sum('response_size')).collect()[0][0])))
 
-# stop sparkSession (SparkContext) after code is finished
+# stop sparkSession (and SparkContext) after code is finished
 spark.stop()
+# exit application
 exit(1)
 
 

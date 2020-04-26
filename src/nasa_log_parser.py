@@ -1,8 +1,8 @@
-# Feito por Gustavo Pedroso em 25/04/2020
+# Created by Gustavo Pedroso on 25/04/2020
 import re
 
 
-# method to parse the logs from source_file_name as save result as csv on target_file_name
+# method to parse the logs from source_file_name and save result as csv on target_file_name
 def log_parser(source_file_name, target_file_name):
     print('Parsing file: [{}]'.format(source_file_name))
 
@@ -10,19 +10,19 @@ def log_parser(source_file_name, target_file_name):
     with open(source_file_name, encoding='ascii', errors='ignore') as file_log_Jul95:
         lines = file_log_Jul95.readlines()
 
-    parsed_lines = list()  # create empty list to stored parsed data
+    parsed_lines = list()  # create empty list to store parsed data
 
     # append header as the first line of the new csv file
     parsed_lines.append('{},{},{},{},{}\n'.format('requester', 'timestamp', 'resource', 'response',
                                                   'response_size'))
 
-    # iterate over the lines of the file to match line with regex pattern below
+    # iterate over the lines of the file to match lines with regex pattern below
     for idx, line in enumerate(lines):
         try:
             # first remove break lines and other invisible characters if present
             line = line.replace('\n', '').replace('\t', '').replace('\r', '')
             line = ' '.join(line.split(' '))  # also remove double spaces
-            # use regex and groups to separate the important data
+            # used regex and groups to separate the important data fields
             m = re.match(r'(\S*)\s-\s-\s\[(.*)\]\s\"(.*)\"\s(\d*)\s([\d-]*)', line)
             g = m.groups()
             parsed_line = '{},{},{},{},{}\n'.format(g[0], g[1], g[2], g[3], g[4])
