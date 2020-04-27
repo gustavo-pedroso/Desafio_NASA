@@ -58,7 +58,7 @@ print(df.filter('response == "404"').groupBy('resource').agg(F.count('response')
       show(5, False))
 
 print('Question 4: Quantidade de erros 404 por dia')
-# a little more complicate since timestamp had to be converted using date_utils.py and UDF (user defined function)
+# a little more complicate since timestamp had to be converted
 
 
 # simple method to convert string timestamp to a python friendly format
