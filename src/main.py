@@ -101,6 +101,6 @@ print('Total bytes returned to requesters: {} bytes'.format(int(df.agg(F.sum('re
 # stop sparkSession (and SparkContext) after code is finished
 spark.stop()
 # exit application
-exit(1)
+exit(0)
 
 
